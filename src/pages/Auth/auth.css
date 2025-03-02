@@ -1,0 +1,109 @@
+.main {
+  /* background-image: linear-gradient(to right, #056DEA, #2AA1FC); */
+  background-color: #f5f5f5;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.content {
+  position: absolute;
+  margin: 0%;
+  padding: 2%;
+  top: 50%;
+  left: 50%;
+  width: 350px;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid transparent;
+  border-radius: 12px;
+}
+
+.Authorization {
+  font-size: 22px;
+  font-weight: 500;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.content-input__field {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 10px;
+  border: 0.1px solid lightblue;
+  outline: none;
+  border-radius: 50px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12%;
+  top: 43.5%;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.auth-button {
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px 10px;
+  border-radius: 50px;
+  border: 0.5px solid transparent;
+  background-color: #ff4912;
+  color: white;
+  transition: 0.1s ease-in;
+}
+.Create-button {
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 0.5px solid transparent;
+  background-color: #ff4912;
+  color: white;
+  transition: 0.1s ease-in;
+}
+.Export-button {
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 0.5px solid transparent;
+  background-color: #171717;
+  color: white;
+  transition: 0.1s ease-in;
+}
+
+.auth-button:hover {
+  background-color: #ff4902;
+  cursor: pointer;
+}
+
+.forgot-password {
+  display: flex;
+  justify-content: end;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.SignUp-link {
+  font-size: 12px;
+  margin-top: 30px;
+}
+
+.SIGN-UP {
+  cursor: pointer;
+  color: #ff4912;
+}
+
+.link,
+.SIGN-UP:hover {
+  color: #ff4902;
+  text-decoration: underline;
+}
+
+.link {
+  text-decoration: none !important;
+}
