@@ -13,8 +13,8 @@ const AppRoutes = () => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Signup />} />
-          <Route path="/sign-in" element={<Signin />} />
+          <Route path="/sign-up" element={<Signup />} />
+          <Route path="/" element={<Signin />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           {/*  */}

@@ -1,37 +1,56 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Menu, Button } from "antd";
 import {
+  PieChartOutlined,
+  TransactionOutlined,
   SettingOutlined,
   LogoutOutlined,
-  TransactionOutlined,
-  PieChartOutlined,
-  MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MenuFoldOutlined,
 } from "@ant-design/icons";
-import { Button, Menu } from "antd";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate(); // ✅ React Router navigation
+
+  const handleLogout = () => {
+    // ✅ Clear localStorage and sessionStorage
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+
+    // ✅ Clear cookies (if using JWT cookies)
+    document.cookie =
+      "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    // ✅ Redirect to login
+    navigate("/");
+  };
 
   const items = [
     {
       key: "1",
       icon: <PieChartOutlined />,
       label: "Accounts",
+      path: "/dashboard",
     },
     {
       key: "2",
       icon: <TransactionOutlined />,
       label: "Withdrawals",
+      // path: "/withdrawals",
     },
     {
       key: "3",
       icon: <SettingOutlined />,
       label: "Profile Settings",
+      // path: "/profile-settings",
     },
     {
       key: "4",
       icon: <LogoutOutlined />,
       label: "Logout",
+      onClick: handleLogout,
     },
   ];
 
@@ -54,14 +73,28 @@ const Sidebar = () => {
           {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         </Button>
       </div>
+
+      {/* ✅ Menu with Logout Handler */}
       <Menu
         defaultSelectedKeys={["1"]}
         mode="inline"
         theme="light"
         inlineCollapsed={collapsed}
-        items={items}
         className="w-full mt-5"
         style={{ minHeight: "90vh" }}
+        onClick={({ key }) => {
+          const selectedItem = items.find((item) => item.key === key);
+          if (selectedItem?.onClick) {
+            selectedItem.onClick(); // ✅ Call the logout function
+          } else if (selectedItem?.path) {
+            navigate(selectedItem.path);
+          }
+        }}
+        items={items.map((item) => ({
+          key: item.key,
+          icon: item.icon,
+          label: item.label,
+        }))}
       />
     </div>
   );

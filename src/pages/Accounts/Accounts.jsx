@@ -2,6 +2,7 @@ import { Breadcrumb } from "antd";
 import React, { useState } from "react";
 import ActiveAccounts from "./ActiveAccounts";
 import BreachedAccounts from "./BreachedAccounts";
+import CreateAccountModel from "./CreateAccountModel";
 // import AccountModel from "../../components/models/AccountModel";
 
 const Accounts = () => {
@@ -34,8 +35,9 @@ const Accounts = () => {
               })
             }
           /> */}
-      <div className="my-5 lg:flex justify-between gap-3">
-        <div className="my-auto flex gap-1 bg-[#F5F5F5] p-2 rounded-[16px] w-[240px]">
+      {/* <div className="my-5 lg:flex justify-between gap-3"> */}
+        <div></div>
+        {/* <div className="my-auto flex gap-1 bg-[#F5F5F5] p-2 rounded-[16px] w-[240px]">
           <h1
             onClick={() => setshowBG("Active")}
             className={` cursor-pointer my-auto w-[180px] text-center py-[8px] rounded-[12px] font-medium text-[#171717]
@@ -50,16 +52,16 @@ const Accounts = () => {
           >
             Breached
           </h1>
-        </div>
-        <div className="my-auto flex gap-2">
-          <button className="Export-button rounded-[12px]">
+        </div> */}
+        <div className="mt-4 my-auto flex lg:justify-end gap-2">
+          <button className="Export-button rounded-[12px]"
+          style={{width:"150px"}}
+          >
             Export&nbsp;Accounts
           </button>
-          <button className="Create-button rounded-[12px]">
-            Create&nbsp;Account
-          </button>
+          <CreateAccountModel />
         </div>
-      </div>
+      {/* </div> */}
       <div className="my-4">
         <div className="my-auto">
           <input

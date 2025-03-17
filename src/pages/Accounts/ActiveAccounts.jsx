@@ -1,13 +1,17 @@
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Table } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import Pagination from "../../components/TablePagination/Pagination";
 import AccountModel from "../../components/models/AccountModel";
-import { useState } from "react";
-
-// import Pagination from "../../components/common/Pagination";
-//columns of table
+import axios from "axios";
+import { useAuth } from "../../AuthContext";
 
 const ActiveAccounts = () => {
+  const authToken = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [accounts, setAccounts] = useState([]);
+  const [totalAccounts, setTotalAccounts] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState({
     isOpen: false,
     title: "",
@@ -15,53 +19,56 @@ const ActiveAccounts = () => {
     desc: "",
     status: "",
   });
+  const limit = 10;
+  const ApiRefetch = localStorage.getItem("ApiRefetch");
+
+  console.log("Api--->>>>", ApiRefetch);
+
+  const GetAccounts = useCallback(
+    async (page = 1) => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/admin/accounts`, {
+          params: { skip: (page - 1) * limit, limit },
+          headers: { Authorization: `Bearer ${authToken?.authToken}` },
+        });
+        setLoading(false);
+        setAccounts(response?.data?.data || []);
+        setTotalAccounts(response?.data?.overview?.total_accounts || 0);
+      } catch (err) {
+        setLoading(false);
+      }
+    },
+    [authToken]
+  );
+
+  useEffect(() => {
+    localStorage.setItem("ApiRefetch", false);
+    GetAccounts(currentPage);
+  }, [GetAccounts, currentPage,ApiRefetch]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const columns = [
+    { title: "Account No", dataIndex: "account_number", key: "account_number" },
+    { title: "Email", dataIndex: "email", key: "email" },
+    { title: "CreatedAt", dataIndex: "created_date", key: "created_date" },
+    { title: "Status", dataIndex: "status", key: "status" },
     {
-      title: "Account No",
-      dataIndex: "accountNo",
-      key: "accountNo",
-      responsive: ["sm", "md", "lg", "xl"],
-    },
-    {
-      title: "CreatedAt",
-      dataIndex: "createdAt",
-      key: "createdAt",
-    },
-    {
-      title: "Deposit",
-      dataIndex: "deposit",
-      key: "deposit",
-    },
-    {
-      title: "Amplified",
-      dataIndex: "amplified",
-      key: "amplified",
-    },
-    {
-      title: "Balance",
-      dataIndex: "balance",
-      key: "balance",
-    },
-    {
-      title: "Pnl",
-      dataIndex: "pnl",
-      key: "pnl",
-    },
-    {
-      title: "TradingDays",
-      dataIndex: "tradingDays",
-      key: "tradingDays",
-    },
-    {
-      title: "DrawDown",
-      dataIndex: "drawDown",
-      key: "drawDown",
-    },
-    {
-      title: "Available",
-      dataIndex: "available",
-      key: "available",
+      title: "Breached",
+      dataIndex: "breached",
+      key: "breached",
+      render: (Breached, record) => (
+        <div state={{ record }}>
+          {Breached ? (
+            <span className="text-green-400">TRUE</span>
+          ) : (
+            <span className="text-red-400">FALSE</span>
+          )}
+        </div>
+      ),
     },
     {
       title: "Actions",
@@ -83,7 +90,7 @@ const ActiveAccounts = () => {
           />
           <Button
             size="small"
-            //   onClick={() => showUpdateCouponModal(record?._id)}
+            onClick={() => showUpdateCouponModal(record?._id)}
           >
             Edit
           </Button>
@@ -92,61 +99,23 @@ const ActiveAccounts = () => {
     },
   ];
 
-  const dataSource = [
-    {
-      key: "1",
-      accountNo: "12345678",
-      createdAt: "2024-03-01",
-      deposit: 5000,
-      amplified: 10000,
-      balance: 12000,
-      pnl: 2000,
-      tradingDays: 30,
-      drawDown: 5,
-      available: 7000,
-    },
-    {
-      key: "2",
-      accountNo: "87654321",
-      createdAt: "2024-02-20",
-      deposit: 3000,
-      amplified: 6000,
-      balance: 8000,
-      pnl: 1000,
-      tradingDays: 25,
-      drawDown: 4,
-      available: 5000,
-    },
-  ];
-  //   const openTrades = useQuery({
-  //     queryFn: () =>
-  //       axios
-  //         .get("/bets/get_open_bets", {
-  //           params,
-  //         })
-  //         .then(({ data }) => data),
-  //     queryKey: ["openTrades", params],
-  //   });
-
   return (
     <>
       <div className="overflow-x-auto">
         <Table
-          dataSource={dataSource}
           columns={columns}
-          // dataSource={openTrades?.data?.bets}
-          // loading={openTrades?.isLoading}
+          dataSource={accounts}
+          loading={loading}
           pagination={false}
-          scroll={{ x: "max-content" }}
+          rowKey="account_number"
         />
       </div>
       <Pagination
-      // setFilters={setParams}
-      // filters={params}
-      // totalCount={openTrades?.data?.total_count}
-      // pageSize={params?.limit}
+        totalPages={Math.ceil(totalAccounts / limit)}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
       />
-      <AccountModel setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+      <AccountModel setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />{" "}
     </>
   );
 };
