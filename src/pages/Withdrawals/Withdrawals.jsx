@@ -1,12 +1,13 @@
+import { Breadcrumb } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Table } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
 import Pagination from "../../components/TablePagination/Pagination";
 import AccountModel from "../../components/models/AccountModel";
 import axios from "axios";
 import { useAuth } from "../../AuthContext";
+import ProcessWtihdrawals from "./ProcessWtihdrawals";
 
-const BreachedAccounts = () => {
+const Withdrawals = () => {
   const authToken = useAuth();
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
@@ -31,15 +32,12 @@ const BreachedAccounts = () => {
           params: { skip: (page - 1) * limit, limit },
           headers: { Authorization: `Bearer ${authToken?.authToken}` },
         });
-
+        setLoading(false);
         const filteredAccounts =
-          response?.data?.data?.filter((account) => account?.breached) || [];
-
+          response?.data?.data?.filter((account) => !account?.breached) || [];
         setAccounts(filteredAccounts);
-        setTotalAccounts(filteredAccounts.length);
+        setTotalAccounts(response?.data?.overview?.total_accounts || 0);
       } catch (err) {
-        console.error("Error fetching accounts:", err);
-      } finally {
         setLoading(false);
       }
     },
@@ -91,7 +89,10 @@ const BreachedAccounts = () => {
     //         })
     //       }
     //     >
+    //       {/* <DeleteOutlined
+    //           className="cursor-pointer text-red-500"
 
+    //         /> */}
     //       <Button
     //         size="small"
     //         onClick={() => showUpdateCouponModal(record?._id)}
@@ -104,24 +105,55 @@ const BreachedAccounts = () => {
   ];
 
   return (
-    <>
-      <div className="overflow-x-auto">
-        <Table
-          columns={columns}
-          dataSource={accounts}
-          loading={loading}
-          pagination={false}
-          rowKey="account_number"
+    <div className="mt-5">
+      <div className="my-auto">
+        <Breadcrumb
+          items={[
+            {
+              title: "Home",
+            },
+            {
+              title: "Withdrawals",
+            },
+          ]}
         />
       </div>
-      <Pagination
-        totalPages={Math.ceil(totalAccounts / limit)}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-      <AccountModel setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />{" "}
-    </>
+
+      <div className="my-5 flex justify-between gap-3">
+        <div className="my-auto w-full">
+          <input
+            type="search"
+            placeholder="Search Withdrawals"
+            className="w-3/4 p-2 border-[1px] border-[#EBEBEB] rounded-[8px]"
+          />
+        </div>
+        <div className="my-auto">
+          <ProcessWtihdrawals />
+        </div>
+      </div>
+
+      <div className="mt-5">
+        <div className="overflow-x-auto">
+          <Table
+            columns={columns}
+            dataSource={accounts}
+            loading={loading}
+            pagination={false}
+            rowKey="account_number"
+          />
+        </div>
+        <Pagination
+          totalPages={Math.ceil(totalAccounts / limit)}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+        <AccountModel
+          setIsModalOpen={setIsModalOpen}
+          isModalOpen={isModalOpen}
+        />{" "}
+      </div>
+    </div>
   );
 };
 
-export default BreachedAccounts;
+export default Withdrawals;

@@ -35,38 +35,38 @@ const Accounts = () => {
               })
             }
           /> */}
-      {/* <div className="my-5 lg:flex justify-between gap-3"> */}
-        <div></div>
-        {/* <div className="my-auto flex gap-1 bg-[#F5F5F5] p-2 rounded-[16px] w-[240px]">
+      <div className="my-5 lg:flex justify-between gap-3">
+        <div className="my-auto flex gap-1 bg-[#F5F5F5] p-[3px] rounded-[10px] w-[240px]">
           <h1
             onClick={() => setshowBG("Active")}
-            className={` cursor-pointer my-auto w-[180px] text-center py-[8px] rounded-[12px] font-medium text-[#171717]
+            className={` cursor-pointer my-auto w-[170px] text-center py-[6px] rounded-[10px] font-medium text-[#171717]
                              ${showBG === "Active" && "bg-[#FFFFFF]  "}`}
           >
             Active
           </h1>
           <h1
             onClick={() => setshowBG("Breached")}
-            className={`cursor-pointer  my-auto w-[180px] text-center py-[8px] rounded-[12px] font-medium text-[#171717]
+            className={`cursor-pointer  my-auto w-[170px] text-center py-[6px] rounded-[10px] font-medium text-[#171717]
                              ${showBG === "Breached" && "bg-[#FFFFFF]"}`}
           >
             Breached
           </h1>
-        </div> */}
-        <div className="mt-4 my-auto flex lg:justify-end gap-2">
-          <button className="Export-button rounded-[12px]"
-          style={{width:"150px"}}
+        </div>
+        <div className="my-auto flex lg:justify-end gap-2">
+          <button
+            className="Export-button rounded-[12px]"
+            style={{ width: "150px" }}
           >
             Export&nbsp;Accounts
           </button>
           <CreateAccountModel />
         </div>
-      {/* </div> */}
+      </div>
       <div className="my-4">
         <div className="my-auto">
           <input
             type="search"
-            placeholder="Search Accounts"
+            placeholder="Search here..."
             className="w-2/4 p-2 mb-4 border-[1px] border-[#EBEBEB] rounded-[8px]"
           />
         </div>

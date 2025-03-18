@@ -4,9 +4,10 @@ import Signup from "../pages/Auth/Signup";
 import Signin from "../pages/Auth/Signin";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import ResetPassword from "../pages/Auth/ResetPassword";
-import Dashboard from "../pages/dashboard/Dashboard";
 import Layout from "../layout/Layout";
 import Accounts from "../pages/Accounts/Accounts";
+import ACCSettings from "../pages/AccountSettings/ACCSettings";
+import Withdrawals from "../pages/Withdrawals/Withdrawals";
 
 const AppRoutes = () => {
   return (
@@ -21,6 +22,8 @@ const AppRoutes = () => {
           <Route path="/" element={<Layout />}>
             {/* <Route path="/dashboard" element={<Dashboard />} /> */}
             <Route path="/dashboard" element={<Accounts />} />
+            <Route path="/Account-settings" element={<ACCSettings />} />
+            <Route path="/Withdrawals" element={<Withdrawals />} />
           </Route>
         </Routes>
       </BrowserRouter>

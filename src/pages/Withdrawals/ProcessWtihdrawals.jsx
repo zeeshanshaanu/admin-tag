@@ -8,8 +8,9 @@ import { useAuth } from "../../AuthContext";
 const initialState = {
   email: "",
   amount: "",
+  account: "",
 };
-const CreateAccountModel = () => {
+const ProcessWtihdrawals = () => {
   const authToken = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState(initialState);
@@ -28,23 +29,26 @@ const CreateAccountModel = () => {
     event.preventDefault();
     setLoading(true);
     try {
+      const { email, amount, account } = formData;
+
       const response = await axios.post(
-        "/admin/create-account",
+        "/admin/process-withdrawal",
         {
-          email: formData.email,
-          amount: formData.amount,
+          email,
+          amount,
+          account,
         },
         {
           headers: { Authorization: `Bearer ${authToken?.authToken}` },
         }
       );
       sessionStorage.setItem("ApiRefetch", "true");
-    //   console.log(sessionStorage.getItem("ApiRefetch"));
+      //   console.log(sessionStorage.getItem("ApiRefetch"));
 
       if (response?.status === 200) {
         messageApi.open({
           type: "success",
-          content: response?.data?.message || "Account create successful!",
+          content: response?.data?.message || "Request Withdrawal successful!",
         });
         setTimeout(() => {
           setIsModalOpen(false);
@@ -69,7 +73,7 @@ const CreateAccountModel = () => {
         onClick={() => setIsModalOpen(true)}
         className="Create-button rounded-[12px]"
       >
-        Create&nbsp;Account
+        Process&nbsp;Wtihdrawals
       </button>
       <Modal
         footer={false}
@@ -83,7 +87,7 @@ const CreateAccountModel = () => {
       >
         <div className="">
           <h2 className="lg:text-[28px] text-[22px] font-semibold mb-[10px] w-[90%]">
-            Create Account
+            Withdrawal Request
           </h2>
 
           <div className="my-5">
@@ -92,7 +96,7 @@ const CreateAccountModel = () => {
                 <input
                   required
                   type="text"
-                  placeholder="Email"
+                  placeholder="Please enter your Email"
                   className="content-input__field"
                   value={formData.email}
                   onChange={(e) =>
@@ -102,13 +106,14 @@ const CreateAccountModel = () => {
                     })
                   }
                 />
-                <br />
+
                 <div className="">
                   <input
-                  min={0}
+                    min={0}
+                    max={999}
                     required
                     type="number"
-                    placeholder="Enter Amount"
+                    placeholder="Please enter your Amount "
                     className="content-input__field"
                     value={formData.amount}
                     onChange={(e) =>
@@ -120,12 +125,28 @@ const CreateAccountModel = () => {
                   />
                 </div>
 
+                <div className="">
+                  <input
+                    min={0}
+                    type="number"
+                    placeholder="Please enter your Account"
+                    className="content-input__field"
+                    value={formData.account}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        account: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
                 <button
                   disabled={loading}
                   className="auth-button"
                   type="submit"
                 >
-                  {loading ? "Loading..." : "Create Account"}
+                  {loading ? "Loading..." : "Process"}
                 </button>
               </div>
             </form>
@@ -137,4 +158,4 @@ const CreateAccountModel = () => {
   );
 };
 
-export default CreateAccountModel;
+export default ProcessWtihdrawals;

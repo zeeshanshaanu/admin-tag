@@ -42,7 +42,7 @@ const Signin = () => {
     } catch (error) {
       messageApi.open({
         type: "error",
-        content: error?.message || "Login failed!",
+        content: error?.response?.data?.detail || "Login failed!",
       });
       //  console.error(error?.message);
       setLoading(false);

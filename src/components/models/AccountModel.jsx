@@ -24,13 +24,13 @@ const AccountModel = ({ setIsModalOpen, isModalOpen }) => {
         <div className="">
           <h2 className="lg:text-[28px] text-center text-[22px] font-semibold mb-[10px] w-[90%]">
             {/* {isModalOpen.title} */}
-            Delete Record
+            Breach Record
           </h2>
           {/* desc */}
           {isModalOpen.desc && (
             <p className="text-[16px] leading-6  text-center">
               {/* {isModalOpen.desc} */}
-              Are you sure you want to delete this coupon?
+              Are you sure you want to Breach this Record?
             </p>
           )}
 
@@ -39,7 +39,7 @@ const AccountModel = ({ setIsModalOpen, isModalOpen }) => {
               onClick={() => setIsModalOpen({ isOpen: false })}
               className="w-full bg-[#FF4912] text-white py-2 rounded-lg text-[18px] cursor-pointer"
             >
-              Delete
+              Breached
             </button>
           </div>
         </div>

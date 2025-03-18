@@ -15,15 +15,10 @@ const Sidebar = () => {
   const navigate = useNavigate(); // ✅ React Router navigation
 
   const handleLogout = () => {
-    // ✅ Clear localStorage and sessionStorage
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("authToken");
-
-    // ✅ Clear cookies (if using JWT cookies)
     document.cookie =
       "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-    // ✅ Redirect to login
     navigate("/");
   };
 
@@ -38,13 +33,13 @@ const Sidebar = () => {
       key: "2",
       icon: <TransactionOutlined />,
       label: "Withdrawals",
-      // path: "/withdrawals",
+      path: "/Withdrawals",
     },
     {
       key: "3",
       icon: <SettingOutlined />,
-      label: "Profile Settings",
-      // path: "/profile-settings",
+      label: "Account Settings",
+      path: "/Account-settings",
     },
     {
       key: "4",

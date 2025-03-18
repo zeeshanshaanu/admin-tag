@@ -21,8 +21,7 @@ const ActiveAccounts = () => {
   });
   const limit = 10;
   const ApiRefetch = localStorage.getItem("ApiRefetch");
-
-  console.log("Api--->>>>", ApiRefetch);
+  // console.log("Api--->>>>", ApiRefetch);
 
   const GetAccounts = useCallback(
     async (page = 1) => {
@@ -33,7 +32,9 @@ const ActiveAccounts = () => {
           headers: { Authorization: `Bearer ${authToken?.authToken}` },
         });
         setLoading(false);
-        setAccounts(response?.data?.data || []);
+        const filteredAccounts =
+        response?.data?.data?.filter((account) => !account?.breached) || [];
+        setAccounts(filteredAccounts);
         setTotalAccounts(response?.data?.overview?.total_accounts || 0);
       } catch (err) {
         setLoading(false);
@@ -45,7 +46,7 @@ const ActiveAccounts = () => {
   useEffect(() => {
     localStorage.setItem("ApiRefetch", false);
     GetAccounts(currentPage);
-  }, [GetAccounts, currentPage,ApiRefetch]);
+  }, [GetAccounts, currentPage, ApiRefetch]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -75,24 +76,27 @@ const ActiveAccounts = () => {
       dataIndex: "Actions",
       key: "Actions",
       render: (_, record) => (
-        <div className="flex space-x-4">
-          <DeleteOutlined
+        <div
+          className="flex space-x-4"
+          onClick={() =>
+            setIsModalOpen({
+              isOpen: true,
+              title: "Add more funds to your account",
+              desc: "To increase your 12X balance, add more funds; however, doing so will reset your trading days timer to zero.",
+              buttonName: "Deposit",
+              status: "Deposit",
+            })
+          }
+        >
+          {/* <DeleteOutlined
             className="cursor-pointer text-red-500"
-            onClick={() =>
-              setIsModalOpen({
-                isOpen: true,
-                title: "Add more funds to your account",
-                desc: "To increase your 12X balance, add more funds; however, doing so will reset your trading days timer to zero.",
-                buttonName: "Deposit",
-                status: "Deposit",
-              })
-            }
-          />
+          
+          /> */}
           <Button
             size="small"
             onClick={() => showUpdateCouponModal(record?._id)}
           >
-            Edit
+            Breached
           </Button>
         </div>
       ),
