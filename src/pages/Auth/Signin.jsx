@@ -56,6 +56,8 @@ const Signin = () => {
           <h3 className="Authorization">Welcome to Login</h3>
           <form onSubmit={handleSubmit}>
             <div className="content-input">
+              <label className="pl-2">User name</label>
+
               <input
                 required
                 type="text"
@@ -69,8 +71,9 @@ const Signin = () => {
                   })
                 }
               />
-              <br />
-              <div className="relative">
+              <div className="relative mt-4">
+                <label className="pl-2">Password</label>
+
                 <input
                   required
                   type={show ? "type" : "password"}

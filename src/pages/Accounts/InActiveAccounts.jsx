@@ -5,7 +5,7 @@ import AccountModel from "../../components/models/AccountModel";
 import axios from "axios";
 import { useAuth } from "../../AuthContext";
 
-const ActiveAccounts = ({ Search }) => {
+const InActiveAccounts = ({ Search }) => {
   const authToken = useAuth();
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
@@ -19,9 +19,8 @@ const ActiveAccounts = ({ Search }) => {
     status: "",
   });
 
-  const totalCount = accounts?.overview?.active_count || 0;
+  const totalCount = accounts?.overview?.deactivated_count || 0;
   const currentPage = Math.floor(filtersPaging.skip / filtersPaging.limit) + 1;
-
   useEffect(() => {
     sessionStorage.setItem("Refetch_Accounts", "false");
     setLoading(true);
@@ -29,7 +28,7 @@ const ActiveAccounts = ({ Search }) => {
     const FetchAccounts = async () => {
       try {
         const response = await axios.get(
-          `/admin/active?search=${Search}&skip=${filtersPaging.skip}&limit=${filtersPaging.limit}`,
+          `/admin/deactivated?search=${Search}&skip=${filtersPaging.skip}&limit=${filtersPaging.limit}`,
           {
             headers: { Authorization: `Bearer ${authToken?.authToken}` },
           }
@@ -40,6 +39,8 @@ const ActiveAccounts = ({ Search }) => {
         });
 
         setLoading(false);
+
+        //
       } catch (error) {
         console.error("Error fetching profile:", error);
         setLoading(false);
@@ -146,15 +147,15 @@ const ActiveAccounts = ({ Search }) => {
           onClick={() =>
             setIsModalOpen({
               isOpen: true,
-              title: "Breach Account",
-              desc: "Are you sure you want to Breach this Account?",
-              buttonName: "Breached",
-              status: "breach",
+              title: "Reactivate Account",
+              desc: "Are you sure you want to Reactivate this Account?",
+              buttonName: "Reactivate",
+              status: "reactivate",
               login: record?.login,
             })
           }
         >
-          <Button size="small">Breached</Button>
+          <Button size="small">Reactive</Button>
         </div>
       ),
     },
@@ -185,4 +186,4 @@ const ActiveAccounts = ({ Search }) => {
   );
 };
 
-export default ActiveAccounts;
+export default InActiveAccounts;

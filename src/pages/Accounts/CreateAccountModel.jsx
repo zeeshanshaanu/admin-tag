@@ -6,8 +6,12 @@ import { useAuth } from "../../AuthContext";
 
 ///////////////////////////////////////////////////////////////
 const initialState = {
+  first_name: "",
+  last_name: "",
   email: "",
+  customer_no: "",
   amount: "",
+  multiplier: "",
 };
 const CreateAccountModel = () => {
   const authToken = useAuth();
@@ -23,7 +27,13 @@ const CreateAccountModel = () => {
     setIsModalOpen(false);
   };
 
-  //
+  // {
+  //   "first_name": "Muhammad",
+  //   "last_name": "Umer",
+  //   "email": "m.umer016@gmail.com",
+  //   "customer_no": "CU21274",
+  // }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -31,33 +41,35 @@ const CreateAccountModel = () => {
       const response = await axios.post(
         "/admin/create-account",
         {
+          first_name: formData.first_name,
+          last_name: formData.last_name,
           email: formData.email,
+          customer_no: formData.customer_no,
           amount: formData.amount,
+          multiplier: formData.multiplier,
         },
         {
           headers: { Authorization: `Bearer ${authToken?.authToken}` },
         }
       );
-      sessionStorage.setItem("ApiRefetch", "true");
-    //   console.log(sessionStorage.getItem("ApiRefetch"));
+      sessionStorage.setItem("Refetch_Accounts", "true");
 
       if (response?.status === 200) {
         messageApi.open({
           type: "success",
-          content: response?.data?.message || "Account create successful!",
+          content: response?.data?.message || "Account Created Successfully.!",
         });
         setTimeout(() => {
-          setIsModalOpen(false);
+          handleOk();
         }, 1000);
       }
-      //   console.log(response?.data);
 
       setLoading(false);
     } catch (error) {
       console.log(error?.response);
       messageApi.open({
         type: "error",
-        content: error?.message || "Login failed!",
+        content: error?.message || "Account Created Failed.!",
       });
       setLoading(false);
     }
@@ -82,52 +94,139 @@ const CreateAccountModel = () => {
         onCancel={handleCancel}
       >
         <div className="">
-          <h2 className="lg:text-[28px] text-[22px] font-semibold mb-[10px] w-[90%]">
+          <h2 className="lg:text-[28px] text-[22px] font-semibold mb-[10px] w-[90%] text-center">
             Create Account
           </h2>
 
           <div className="my-5">
             <form onSubmit={handleSubmit}>
-              <div className="content-input">
-                <input
-                  required
-                  type="text"
-                  placeholder="Email"
-                  className="content-input__field"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      email: e.target.value,
-                    })
-                  }
-                />
-                <br />
-                <div className="">
+              {/* FullName */}
+              <div className="content-input flex gap-2 justify-between items-center">
+                {/* first name" */}
+                <div className="w-full mt-4">
+                  <label className="pl-2">First name</label>
+
                   <input
-                  min={0}
+                    required
+                    type="text"
+                    placeholder="First name"
+                    className="content-input__field"
+                    value={formData.first_name}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        first_name: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                {/* Amount */}
+                <div className="w-full mt-4">
+                  <label className="pl-2">Last name</label>
+
+                  <input
+                    required
+                    type="text"
+                    placeholder="Last name"
+                    className="content-input__field"
+                    value={formData.last_name}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        last_name: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+
+              {/* Email and Customer No */}
+              <div className="content-input flex gap-2 justify-between items-center">
+                {/* Email */}
+                <div className="w-full mt-4">
+                  <label className="pl-2">Email</label>
+
+                  <input
+                    required
+                    type="email"
+                    placeholder="Email"
+                    className="content-input__field"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                {/* customer_no */}
+                <div className="w-full mt-4">
+                  <label className="pl-2">Customer#</label>
+
+                  <input
+                    required
+                    type="text"
+                    placeholder="Customer Numnber"
+                    className="content-input__field"
+                    value={formData.customer_no}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        customer_no: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+
+              {/* amount And multiplier */}
+              <div className="content-input flex gap-2 justify-between items-center">
+                {/* amount */}
+                <div className="w-full mt-4">
+                  <label className="pl-2">Amount</label>
+
+                  <input
                     required
                     type="number"
-                    placeholder="Enter Amount"
+                    min={0}
+                    placeholder="Amount"
                     className="content-input__field"
                     value={formData.amount}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        amount: e.target.value,
+                        amount: Number(e.target.value),
                       })
                     }
                   />
                 </div>
-
-                <button
-                  disabled={loading}
-                  className="auth-button"
-                  type="submit"
-                >
-                  {loading ? "Loading..." : "Create Account"}
-                </button>
+                {/* Multiplier */}
+                <div className="w-full mt-4">
+                  <label className="pl-2">Multiplier</label>
+                  <input
+                    min={0}
+                    required
+                    type="number"
+                    placeholder="Multiplier"
+                    className="content-input__field"
+                    value={formData.multiplier}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        multiplier: Number(e.target.value),
+                      })
+                    }
+                  />
+                </div>
               </div>
+              {loading ? (
+                <p className="auth-button text-center">Loading...</p>
+              ) : (
+                <button className="auth-button" type="submit">
+                  Create Account
+                </button>
+              )}
             </form>
           </div>
         </div>
