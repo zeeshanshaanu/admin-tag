@@ -204,11 +204,9 @@ const CreateAccountModel = () => {
                 {/* Multiplier */}
                 <div className="w-full mt-4">
                   <label className="pl-2">Multiplier</label>
-                  <input
-                    min={0}
+                  <select
                     required
-                    type="number"
-                    placeholder="Multiplier"
+                    style={{ padding: "12px 10px" }}
                     className="content-input__field"
                     value={formData.multiplier}
                     onChange={(e) =>
@@ -217,7 +215,13 @@ const CreateAccountModel = () => {
                         multiplier: Number(e.target.value),
                       })
                     }
-                  />
+                  >
+                    <option value="" disabled>
+                      Select Multiplier
+                    </option>
+                    <option value={12}>12</option>
+                    <option value={24}>24</option>
+                  </select>
                 </div>
               </div>
               {loading ? (
