@@ -27,6 +27,14 @@ const Withdrawals = () => {
   const totalCount = accounts?.overview?.active_count || 0;
   const currentPage = Math.floor(filtersPaging.skip / filtersPaging.limit) + 1;
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+    document.cookie =
+      "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
+  };
+
   useEffect(() => {
     sessionStorage.setItem("Refetch_Accounts", "false");
     setLoading(true);
@@ -39,6 +47,11 @@ const Withdrawals = () => {
             headers: { Authorization: `Bearer ${authToken?.authToken}` },
           }
         );
+
+        if (response?.data?.status === 401) {
+          handleLogout();
+        }
+
         setAccounts({
           list: response?.data?.data || [],
           overview: response?.data?.overview || {},

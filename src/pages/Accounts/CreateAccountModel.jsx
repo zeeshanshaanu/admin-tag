@@ -27,13 +27,13 @@ const CreateAccountModel = () => {
     setIsModalOpen(false);
   };
 
-  // {
-  //   "first_name": "Muhammad",
-  //   "last_name": "Umer",
-  //   "email": "m.umer016@gmail.com",
-  //   "customer_no": "CU21274",
-  // }
-
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+    document.cookie =
+      "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -62,6 +62,9 @@ const CreateAccountModel = () => {
         setTimeout(() => {
           handleOk();
         }, 1000);
+      }
+      if (response?.data?.status === 401) {
+        handleLogout();
       }
 
       setLoading(false);

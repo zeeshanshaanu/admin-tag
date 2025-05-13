@@ -18,6 +18,14 @@ const ACCSettings = () => {
   const [ACCloading, setACCLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   //
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+    document.cookie =
+      "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
+  };
+
   useEffect(() => {
     setACCLoading(true);
     const FetchAccountDetail = async () => {
@@ -29,6 +37,9 @@ const ACCSettings = () => {
             headers: { Authorization: `Bearer ${authToken?.authToken}` },
           }
         );
+        if (response?.data?.status === 401) {
+          handleLogout();
+        }
         // console.log(response.data?.settings);
         setFormData(response?.data?.settings);
         setACCLoading(false);
@@ -55,7 +66,9 @@ const ACCSettings = () => {
         { multiplier, dd_limit, locking_period },
         { headers: { Authorization: `Bearer ${authToken?.authToken}` } }
       );
-
+      if (response?.data?.status === 401) {
+        handleLogout();
+      }
       messageApi.open({
         type: "success",
         content: response?.data?.message || "Settings Updated!",

@@ -21,6 +21,15 @@ const InActiveAccounts = ({ Search }) => {
 
   const totalCount = accounts?.overview?.deactivated_count || 0;
   const currentPage = Math.floor(filtersPaging.skip / filtersPaging.limit) + 1;
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+    document.cookie =
+      "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
+  };
+
   useEffect(() => {
     sessionStorage.setItem("Refetch_Accounts", "false");
     setLoading(true);
@@ -39,7 +48,9 @@ const InActiveAccounts = ({ Search }) => {
         });
 
         setLoading(false);
-
+        if (response?.data?.status === 401) {
+          handleLogout();
+        }
         //
       } catch (error) {
         console.error("Error fetching profile:", error);

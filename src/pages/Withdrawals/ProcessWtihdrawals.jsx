@@ -24,6 +24,14 @@ const ProcessWtihdrawals = () => {
     setIsModalOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+    document.cookie =
+      "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
+  };
+
   //
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,6 +61,10 @@ const ProcessWtihdrawals = () => {
         setTimeout(() => {
           setIsModalOpen(false);
         }, 1000);
+      }
+
+      if (response?.data?.status === 401) {
+        handleLogout();
       }
       //   console.log(response?.data);
 
