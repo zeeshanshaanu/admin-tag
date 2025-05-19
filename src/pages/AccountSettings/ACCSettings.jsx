@@ -37,13 +37,14 @@ const ACCSettings = () => {
             headers: { Authorization: `Bearer ${authToken?.authToken}` },
           }
         );
-        if (response?.status === 401) {
-          handleLogout();
-        }
+
         // console.log(response.data?.settings);
         setFormData(response?.data?.settings);
         setACCLoading(false);
       } catch (error) {
+        if (error?.response?.status === 401) {
+          handleLogout();
+        }
         console.error("Error fetching profile:", error);
         setACCLoading(false);
       } finally {

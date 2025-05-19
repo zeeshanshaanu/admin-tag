@@ -48,11 +48,12 @@ const InActiveAccounts = ({ Search }) => {
         });
 
         setLoading(false);
-        if (response?.status === 401) {
-          handleLogout();
-        }
+
         //
       } catch (error) {
+        if (error?.response?.status === 401) {
+          handleLogout();
+        }
         console.error("Error fetching profile:", error);
         setLoading(false);
       } finally {

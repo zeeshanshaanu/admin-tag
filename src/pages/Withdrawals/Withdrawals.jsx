@@ -49,15 +49,15 @@ const Withdrawals = () => {
           }
         );
 
-        if (response?.status === 401) {
-          handleLogout();
-        }
         // console.log(response?.data?.data);
 
         setAccounts(response?.data);
 
         setLoading(false);
       } catch (error) {
+        if (error?.response?.status === 401) {
+          handleLogout();
+        }
         console.error("Error fetching profile:", error);
         setLoading(false);
       } finally {

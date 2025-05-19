@@ -43,10 +43,7 @@ const ActiveAccounts = ({ Search }) => {
             headers: { Authorization: `Bearer ${authToken?.authToken}` },
           }
         );
-        // console.log(response.status); // ➤ 200
-        if (response?.status === 401) {
-          handleLogout();
-        }
+
         setAccounts({
           list: response?.data?.data || [],
           overview: response?.data?.overview || {},
@@ -54,6 +51,11 @@ const ActiveAccounts = ({ Search }) => {
 
         setLoading(false);
       } catch (error) {
+        // console.log(error?.response?.status);
+
+        if (error?.response?.status === 401) {
+          handleLogout();
+        }
         console.error("Error fetching profile:", error);
         setLoading(false);
       } finally {
