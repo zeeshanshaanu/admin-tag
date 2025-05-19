@@ -37,7 +37,7 @@ const ACCSettings = () => {
             headers: { Authorization: `Bearer ${authToken?.authToken}` },
           }
         );
-        if (response?.data?.status === 401) {
+        if (response?.status === 401) {
           handleLogout();
         }
         // console.log(response.data?.settings);
@@ -66,7 +66,7 @@ const ACCSettings = () => {
         { multiplier, dd_limit, locking_period },
         { headers: { Authorization: `Bearer ${authToken?.authToken}` } }
       );
-      if (response?.data?.status === 401) {
+      if (response?.status === 401) {
         handleLogout();
       }
       messageApi.open({

@@ -1,7 +1,13 @@
 import React from "react";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 
-const Pagination = ({ current, total, pageSize, onPageChange, isLoading }) => {
+const WithdrawPagination = ({
+  current,
+  total,
+  pageSize,
+  onPageChange,
+  isLoading,
+}) => {
   const totalPages = total > 0 ? Math.ceil(total / pageSize) : 1;
 
   const getPageNumbers = () => {
@@ -90,4 +96,4 @@ const Pagination = ({ current, total, pageSize, onPageChange, isLoading }) => {
   );
 };
 
-export default Pagination;
+export default WithdrawPagination;

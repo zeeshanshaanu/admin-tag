@@ -63,7 +63,7 @@ const ProcessWtihdrawals = () => {
         }, 1000);
       }
 
-      if (response?.data?.status === 401) {
+      if (response?.status === 401) {
         handleLogout();
       }
       //   console.log(response?.data);

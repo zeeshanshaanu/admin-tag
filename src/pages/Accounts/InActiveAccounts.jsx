@@ -48,7 +48,7 @@ const InActiveAccounts = ({ Search }) => {
         });
 
         setLoading(false);
-        if (response?.data?.status === 401) {
+        if (response?.status === 401) {
           handleLogout();
         }
         //

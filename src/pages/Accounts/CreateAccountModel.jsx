@@ -63,7 +63,7 @@ const CreateAccountModel = () => {
           handleOk();
         }, 1000);
       }
-      if (response?.data?.status === 401) {
+      if (response?.status === 401) {
         handleLogout();
       }
 

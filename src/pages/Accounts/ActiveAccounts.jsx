@@ -13,6 +13,7 @@ const ActiveAccounts = ({ Search }) => {
   const [accounts, setAccounts] = useState([]);
   const ApiRefetch = sessionStorage.getItem("Refetch_Accounts");
   const [filtersPaging, setFiltersPaging] = useState({ skip: 0, limit: 10 });
+
   const [isModalOpen, setIsModalOpen] = useState({
     isOpen: false,
     title: "",
@@ -26,7 +27,6 @@ const ActiveAccounts = ({ Search }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    sessionStorage.removeItem("authToken");
     document.cookie =
       "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     navigate("/");
@@ -43,8 +43,8 @@ const ActiveAccounts = ({ Search }) => {
             headers: { Authorization: `Bearer ${authToken?.authToken}` },
           }
         );
-
-        if (response?.data?.status === 401) {
+        // console.log(response.status); // ➤ 200
+        if (response?.status === 401) {
           handleLogout();
         }
         setAccounts({

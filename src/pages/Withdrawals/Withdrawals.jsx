@@ -1,13 +1,14 @@
 import { Breadcrumb } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Table } from "antd";
-import Pagination from "../../components/TablePagination/Pagination";
 import AccountModel from "../../components/models/AccountModel";
 import axios from "axios";
 import { useAuth } from "../../AuthContext";
-import ProcessWtihdrawals from "./ProcessWtihdrawals";
+import WithdrawPagination from "../../components/TablePagination/WithdrawPagination";
+
 // //////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////
+
 const Withdrawals = () => {
   const authToken = useAuth();
   const [showBG, setshowBG] = useState("");
@@ -15,7 +16,7 @@ const Withdrawals = () => {
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
   const ApiRefetch = sessionStorage.getItem("Refetch_Accounts");
-  const [filtersPaging, setFiltersPaging] = useState({ skip: 0, limit: 10 });
+
   const [isModalOpen, setIsModalOpen] = useState({
     isOpen: false,
     title: "",
@@ -23,8 +24,8 @@ const Withdrawals = () => {
     desc: "",
     status: "",
   });
-
-  const totalCount = accounts?.overview?.active_count || 0;
+  const [filtersPaging, setFiltersPaging] = useState({ skip: 0, limit: 10 });
+  const totalCount = accounts?.total || 0;
   const currentPage = Math.floor(filtersPaging.skip / filtersPaging.limit) + 1;
 
   const handleLogout = () => {
@@ -48,14 +49,13 @@ const Withdrawals = () => {
           }
         );
 
-        if (response?.data?.status === 401) {
+        if (response?.status === 401) {
           handleLogout();
         }
+        // console.log(response?.data?.data);
 
-        setAccounts({
-          list: response?.data?.data || [],
-          overview: response?.data?.overview || {},
-        });
+        setAccounts(response?.data);
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -66,15 +66,11 @@ const Withdrawals = () => {
     };
 
     FetchWithdrawals();
-  }, [currentPage, Search, showBG, ApiRefetch]);
+  }, [filtersPaging.skip, Search, showBG, ApiRefetch]);
 
-  const handlePageChange = (newPage) => {
-    if (!loading) {
-      setFiltersPaging((prev) => ({
-        ...prev,
-        skip: (newPage - 1) * prev.limit,
-      }));
-    }
+  const handlePageChange = (page) => {
+    const newSkip = (page - 1) * filtersPaging.limit;
+    setFiltersPaging((prev) => ({ ...prev, skip: newSkip }));
   };
 
   const columns = [
@@ -172,6 +168,7 @@ const Withdrawals = () => {
           ]}
         />
       </div>
+
       <div className="my-5 lg:flex justify-between gap-3">
         <div className="mt-5 flex gap-1 bg-[#F5F5F5] p-[3px] rounded-[10px] w-[240px]">
           <h1
@@ -208,19 +205,19 @@ const Withdrawals = () => {
         <div className="overflow-x-auto">
           <Table
             columns={columns}
-            dataSource={accounts?.list}
+            dataSource={accounts?.data}
             loading={loading}
             pagination={false}
             rowKey="account_number"
           />
         </div>
-        {accounts?.list?.length > 0 && (
-          <Pagination
+        {accounts?.data?.length > 0 && (
+          <WithdrawPagination
             current={currentPage}
             total={totalCount}
-            pageSize={filtersPaging.limit}
+            pageSize={filtersPaging.limit} // ✅ FIXED
             onPageChange={handlePageChange}
-            isLoading={loading}
+            loading={loading}
           />
         )}
         <AccountModel
