@@ -229,7 +229,7 @@ const CreateAccountModel = () => {
                       Select Multiplier
                     </option>
                     <option value={12}>12</option>
-                    <option value={24}>24</option>
+                    {/* <option value={24}>24</option> */}
                   </select>
                 </div>
               </div>

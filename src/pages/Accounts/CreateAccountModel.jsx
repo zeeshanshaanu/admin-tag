@@ -12,6 +12,7 @@ const initialState = {
   customer_no: "",
   amount: "",
   multiplier: "",
+  dd_limit: "",
 };
 const CreateAccountModel = () => {
   const authToken = useAuth();
@@ -19,6 +20,7 @@ const CreateAccountModel = () => {
   const [formData, setFormData] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  // console.log(formData?.multiplier);
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -47,6 +49,7 @@ const CreateAccountModel = () => {
           customer_no: formData.customer_no,
           amount: formData.amount,
           multiplier: formData.multiplier,
+          dd_limit: formData.dd_limit,
         },
         {
           headers: { Authorization: `Bearer ${authToken?.authToken}` },
@@ -72,7 +75,7 @@ const CreateAccountModel = () => {
       console.log(error?.response);
       messageApi.open({
         type: "error",
-        content: error?.message || "Account Created Failed.!",
+        content: error?.response?.data?.detail || "Account Created Failed.!",
       });
       setLoading(false);
     }
@@ -227,6 +230,27 @@ const CreateAccountModel = () => {
                   </select>
                 </div>
               </div>
+              {formData?.multiplier === 24 && (
+                <div className="w-full mt-4">
+                  <label className="pl-2">DD Limit</label>
+
+                  <input
+                    required={formData?.multiplier === 24 ? true : false}
+                    min={1}
+                    max={100}
+                    type="number"
+                    placeholder="DD Limit"
+                    className="content-input__field"
+                    value={formData.dd_limit}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        dd_limit: Number(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+              )}
               {loading ? (
                 <p className="auth-button text-center">Loading...</p>
               ) : (
