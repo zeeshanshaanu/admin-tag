@@ -84,7 +84,29 @@ const InActiveAccounts = ({ Search }) => {
         </div>
       ),
     },
-    { title: "Account#", dataIndex: "login", key: "login" },
+    {
+      title: "Account#",
+      dataIndex: "login",
+      key: "login",
+      render: (is_bonus, record) => (
+        <div>
+          {record?.is_bonus === "True" && (
+            <span className="text-green-400">Bonus</span>
+          )}{" "}
+          {record?.login}{" "}
+        </div>
+      ),
+    },
+    {
+      title: "Lots",
+      dataIndex: "lots",
+      key: "lots",
+      render: (lots, record) => (
+        <div>
+          {record?.lots ? <span className="">{record?.lots}</span> : "-"}
+        </div>
+      ),
+    },
     {
       title: "CreatedAt",
       dataIndex: "created_at",
