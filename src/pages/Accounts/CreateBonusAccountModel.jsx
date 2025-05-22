@@ -11,9 +11,9 @@ const initialState = {
   email: "",
   customer_no: "",
   amount: "",
-  multiplier: "",
-  dd_limit: "",
-  locking_period: "",
+  multiplier: 12,
+  dd_limit: 10,
+  locking_period: 30,
   lots: "",
 };
 const CreateAccountModel = () => {
@@ -49,9 +49,9 @@ const CreateAccountModel = () => {
           email: formData.email,
           customer_no: formData.customer_no,
           amount: formData.amount,
-          multiplier: formData.multiplier,
-          dd_limit: formData.dd_limit,
-          locking_period: formData.locking_period,
+          multiplier: formData.multiplier || 12,
+          dd_limit: formData.dd_limit || 10,
+          locking_period: formData.locking_period || 30,
           lots: formData.lots,
         },
         {
@@ -211,7 +211,7 @@ const CreateAccountModel = () => {
                   />
                 </div>
                 {/* Multiplier */}
-                <div className="w-full mt-4">
+                {/* <div className="w-full mt-4">
                   <label className="pl-2">Multiplier</label>
                   <select
                     required
@@ -229,15 +229,31 @@ const CreateAccountModel = () => {
                       Select Multiplier
                     </option>
                     <option value={12}>12</option>
-                    {/* <option value={24}>24</option> */}
-                  </select>
+                   </select>
+                </div> */}
+                <div className="w-full mt-4">
+                  <label className="pl-2">Lots</label>
+                  <input
+                    required
+                    min={1}
+                    max={10000}
+                    type="number"
+                    placeholder="Lots"
+                    className="content-input__field"
+                    value={formData.lots}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        lots: Number(e.target.value),
+                      })
+                    }
+                  />
                 </div>
               </div>
 
               {/* dd_limit and locking_period */}
-              <div className="content-input flex gap-2 justify-between items-center">
-                {/* dd_limit */}
-                <div className="w-full mt-4">
+              {/* <div className="content-input flex gap-2 justify-between items-center">
+                 <div className="w-full mt-4">
                   <label className="pl-2">DD Limit</label>
 
                   <input
@@ -256,8 +272,7 @@ const CreateAccountModel = () => {
                     }
                   />
                 </div>
-                {/* Locking Period */}
-                <div className="w-full mt-4">
+                 <div className="w-full mt-4">
                   <label className="pl-2">Locking Period</label>
                   <input
                     required
@@ -275,26 +290,8 @@ const CreateAccountModel = () => {
                     }
                   />
                 </div>
-              </div>
+              </div> */}
               {/* Lots */}
-              <div className="w-full mt-4">
-                <label className="pl-2">Lots</label>
-                <input
-                  required
-                  min={1}
-                  max={10000}
-                  type="number"
-                  placeholder="Lots"
-                  className="content-input__field"
-                  value={formData.lots}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      lots: Number(e.target.value),
-                    })
-                  }
-                />
-              </div>
 
               {loading ? (
                 <p className="auth-button text-center">Loading...</p>

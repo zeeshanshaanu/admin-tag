@@ -49,7 +49,7 @@ const CreateAccountModel = () => {
           customer_no: formData.customer_no,
           amount: formData.amount,
           multiplier: formData.multiplier,
-          dd_limit: formData.dd_limit,
+          dd_limit: formData.dd_limit || null,
         },
         {
           headers: { Authorization: `Bearer ${authToken?.authToken}` },
