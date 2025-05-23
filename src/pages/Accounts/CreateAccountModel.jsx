@@ -20,7 +20,7 @@ const CreateAccountModel = () => {
   const [formData, setFormData] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  // console.log(formData?.multiplier);
+  console.log(formData?.multiplier);
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -48,8 +48,13 @@ const CreateAccountModel = () => {
           email: formData.email,
           customer_no: formData.customer_no,
           amount: formData.amount,
-          multiplier: formData.multiplier,
-          dd_limit: formData.dd_limit || null,
+          multiplier: formData.multiplier === 25 ? 24 : formData.multiplier,
+          dd_limit:
+            formData.multiplier === 24
+              ? 10
+              : formData.multiplier === 25
+              ? 5
+              : null,
         },
         {
           headers: { Authorization: `Bearer ${authToken?.authToken}` },
@@ -209,7 +214,7 @@ const CreateAccountModel = () => {
                 </div>
                 {/* Multiplier */}
                 <div className="w-full mt-4">
-                  <label className="pl-2">Multiplier</label>
+                  <label className="pl-2">Account Type</label>
                   <select
                     required
                     style={{ padding: "12px 10px" }}
@@ -223,14 +228,15 @@ const CreateAccountModel = () => {
                     }
                   >
                     <option value="" disabled>
-                      Select Multiplier
+                      Select Account Type
                     </option>
-                    <option value={12}>12</option>
-                    <option value={24}>24</option>
+                    <option value={12}>12X Standard</option>
+                    <option value={24}>24X Standard</option>
+                    <option value={25}>24X5DD</option>
                   </select>
                 </div>
               </div>
-              {formData?.multiplier === 24 && (
+              {/* {formData?.multiplier === 24 && (
                 <div className="w-full mt-4">
                   <label className="pl-2">DD Limit</label>
 
@@ -250,7 +256,7 @@ const CreateAccountModel = () => {
                     }
                   />
                 </div>
-              )}
+              )} */}
               {loading ? (
                 <p className="auth-button text-center">Loading...</p>
               ) : (

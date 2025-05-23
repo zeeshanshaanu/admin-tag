@@ -185,13 +185,13 @@ const ActiveAccounts = ({ Search }) => {
               isOpen: true,
               title: "Breach Account",
               desc: "Are you sure you want to Breach this Account?",
-              buttonName: "Breached",
+              buttonName: "Breach",
               status: "breach",
               login: record?.login,
             })
           }
         >
-          <Button size="small">Breached</Button>
+          <Button size="small">Breach</Button>
         </div>
       ),
     },
