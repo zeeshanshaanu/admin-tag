@@ -6,7 +6,7 @@ import axios from "axios";
 import { AuthProvider } from "./AuthContext.jsx";
  
 //////////////////////////////////////////////////////////////////////////////////////
-axios.defaults.baseURL = "https://amplify-api.tagmarkets.com";
+axios.defaults.baseURL = "https://stag-amplify-api.tagmarkets.com";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
