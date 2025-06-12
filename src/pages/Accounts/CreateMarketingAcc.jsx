@@ -41,20 +41,21 @@ const CreateMarketingAcc = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "/admin/create-account",
+        "/admin/create-marketing-account",
         {
           first_name: formData.first_name,
           last_name: formData.last_name,
           email: formData.email,
           customer_no: formData.customer_no,
           amount: formData.amount,
-          multiplier: formData.multiplier === 25 ? 24 : formData.multiplier,
-          dd_limit:
-            formData.multiplier === 24
-              ? 10
-              : formData.multiplier === 25
-              ? 5
-              : null,
+          multiplier: 12,
+          // multiplier: formData.multiplier === 25 ? 24 : formData.multiplier,
+          // dd_limit:
+          //   formData.multiplier === 24
+          //     ? 10
+          //     : formData.multiplier === 25
+          //     ? 5
+          //     : null,
         },
         {
           headers: { Authorization: `Bearer ${authToken?.authToken}` },
@@ -106,7 +107,7 @@ const CreateMarketingAcc = () => {
       >
         <div className="">
           <h2 className="lg:text-[28px] text-[22px] font-semibold mb-[10px] w-[90%] text-center">
-            Create Account
+            Create Marketing Account
           </h2>
 
           <div className="my-5">
@@ -219,7 +220,7 @@ const CreateMarketingAcc = () => {
                   />
                 </div>
                 {/* Multiplier */}
-                <div className="w-full mt-4">
+                {/* <div className="w-full mt-4">
                   <label className="pl-2">Account Type</label>
                   <select
                     required
@@ -240,7 +241,7 @@ const CreateMarketingAcc = () => {
                     <option value={24}>24X Standard</option>
                     <option value={25}>24X5DD</option>
                   </select>
-                </div>
+                </div> */}
               </div>
               {/* {formData?.multiplier === 24 && (
                 <div className="w-full mt-4">
@@ -267,7 +268,7 @@ const CreateMarketingAcc = () => {
                 <p className="auth-button text-center">Loading...</p>
               ) : (
                 <button className="auth-button" type="submit">
-                  Create Account
+                  Create Marketing Account
                 </button>
               )}
             </form>

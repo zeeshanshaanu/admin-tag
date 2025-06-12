@@ -173,7 +173,7 @@ const CreateAccountModel = () => {
                 </div>
                 {/* customer_no */}
                 <div className="w-full mt-4">
-                  <label className="pl-2">Customer# DDDD</label>
+                  <label className="pl-2">Customer#</label>
 
                   <input
                     required
