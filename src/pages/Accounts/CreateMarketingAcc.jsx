@@ -14,7 +14,7 @@ const initialState = {
   multiplier: "",
   dd_limit: "",
 };
-const CreateAccountModel = () => {
+const CreateMarketingAcc = () => {
   const authToken = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState(initialState);
@@ -92,7 +92,7 @@ const CreateAccountModel = () => {
         onClick={() => setIsModalOpen(true)}
         className="Create-button rounded-[12px]"
       >
-        Create&nbsp;Account
+        Create&nbsp;Marketing&nbsp;Account
       </button>
       <Modal
         footer={false}
@@ -173,7 +173,7 @@ const CreateAccountModel = () => {
                 </div>
                 {/* customer_no */}
                 <div className="w-full mt-4">
-                  <label className="pl-2">Customer# DDDD</label>
+                  <label className="pl-2">Customer#</label>
 
                   <input
                     required
@@ -279,4 +279,4 @@ const CreateAccountModel = () => {
   );
 };
 
-export default CreateAccountModel;
+export default CreateMarketingAcc;
