@@ -6,6 +6,7 @@ import InActiveAccounts from "./InActiveAccounts";
 import axios from "axios";
 import { useAuth } from "../../AuthContext";
 import CreateBonusAccountModel from "./CreateBonusAccountModel";
+import CreateMarketingAcc from "./CreateMarketingAcc";
 
 const Accounts = () => {
   const authToken = useAuth();
@@ -85,7 +86,6 @@ const Accounts = () => {
           </h1>
         </div>
         <div className="mt-5 flex lg:justify-end gap-2">
-          <CreateBonusAccountModel />
           {loading ? (
             <button
               className="Export-button cursor-wait rounded-[12px]"
@@ -102,7 +102,9 @@ const Accounts = () => {
               Export&nbsp;Accounts
             </button>
           )}
+          <CreateBonusAccountModel />
           <CreateAccountModel />
+          <CreateMarketingAcc />
         </div>
       </div>
       <div className="my-4">

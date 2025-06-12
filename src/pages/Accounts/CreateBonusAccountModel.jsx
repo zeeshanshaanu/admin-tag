@@ -179,10 +179,16 @@ const CreateAccountModel = () => {
                     placeholder="Customer Numnber"
                     className="content-input__field"
                     value={formData.customer_no}
+                    // onChange={(e) =>
+                    //   setFormData({
+                    //     ...formData,
+                    //     customer_no: e.target.value,
+                    //   })
+                    // }
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        customer_no: e.target.value,
+                        customer_no: e.target.value.replace(/\s/g, ""), // removes all spaces
                       })
                     }
                   />
