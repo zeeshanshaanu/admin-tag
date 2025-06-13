@@ -90,9 +90,11 @@ const InActiveAccounts = ({ Search }) => {
       key: "login",
       render: (is_bonus, record) => (
         <div>
-          {record?.is_bonus === "True" && (
+          {record?.is_bonus === "True" && record?.is_maketing === "True" ? (
+            <span className="text-green-400">MAR</span>
+          ) : record?.is_bonus === "True" ? (
             <span className="text-green-400">Bonus</span>
-          )}{" "}
+          ) : null}{" "}
           {record?.login}{" "}
         </div>
       ),
